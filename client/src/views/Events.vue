@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     copyLink: function (e) {
-      navigator.clipboard.writeText("http://localhost:3000/register/" + e);
+      navigator.clipboard.writeText("https://aloha.herokuapp.com/register/" + e);
       alert("Link Copied to ClipBoard");
     },
   },
