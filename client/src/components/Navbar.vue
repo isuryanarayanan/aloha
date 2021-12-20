@@ -5,16 +5,8 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light px-5">
-    <a class="navbar-brand" href="#">
-      <img
-        src="../assets/aloha-logo-little.png"
-        width="90"
-        height="90"
-        class="d-inline-block mx-5"
-        alt=""
-      />
-    </a>
+  <nav class="navbar navbar-expand-lg bg-dark navbar-light px-5">
+    <a class="navbar-brand" href="#"></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -29,10 +21,14 @@ export default {
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item btn">
-          <router-link class="nav-link" to="/">Home</router-link>
+          <router-link class="nav-link text-light border-bottom" to="/"
+            >Home</router-link
+          >
         </li>
         <li class="nav-item btn">
-          <router-link class="nav-link" to="/events">Events</router-link>
+          <router-link class="nav-link text-light border-bottom" to="/events"
+            >Events</router-link
+          >
         </li>
       </ul>
     </div>

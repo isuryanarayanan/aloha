@@ -80,6 +80,9 @@ class User(AbstractUser):
         max_length=255, blank=True, null=False, default=AUTH_PROVIDERS.get("email")
     )
     username = models.CharField(max_length=250, unique=False)
+    semester = models.CharField(max_length=250,default="", unique=False)
+    batch = models.CharField(max_length=250,default="", unique=False)
+    phone = models.CharField(max_length=250,default="", unique=False)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

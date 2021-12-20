@@ -12,7 +12,9 @@ from accounts.models import User
 
 class GoogleOAuthSerializer(serializers.Serializer):
     oauth_token = serializers.CharField(max_length=2550)
-    asiet_id = serializers.CharField(max_length=250)
+    phone_number = serializers.CharField(max_length=250)
+    semester = serializers.CharField(max_length=250)
+    batch = serializers.CharField(max_length=250)
     event_id = serializers.CharField(max_length=250)
 
     access_token = serializers.CharField(max_length=250, read_only=True)
@@ -44,7 +46,7 @@ class GoogleOAuthSerializer(serializers.Serializer):
         if not user:
             try:
                 user = User.objects.create_user_from_google(
-                        email=idinfo['email'], username=data.get('asiet_id'))
+                        email=idinfo['email'], username=idinfo['name'])
             except Exception as exc:
                 raise serializers.ValidationError("Error creation user for this account")
 
@@ -59,6 +61,10 @@ class GoogleOAuthSerializer(serializers.Serializer):
             from organizer.models import Event
             try: 
                 event = Event.objects.get(pk=data.get('event_id')) 
+                user.phone = data.get('phone_number')
+                user.semester= data.get('semester')
+                user.batch= data.get('batch')
+                user.save()
             except Event.DoesNotExist: 
                 raise serializers.ValidationError("The event does not exist")
  
@@ -70,7 +76,9 @@ class GoogleOAuthSerializer(serializers.Serializer):
         return {
             "oauth_token": "valid",
             "event_id": "valid",
-            "asiet_id": "valid",
+            "phone_number": "valid",
+            "semester": "valid",
+            "batch": "valid",
             "access_token": access_token,
             "refresh_token": refresh_token
         }

@@ -9,7 +9,8 @@ class Event(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(default='')
     timing = models.CharField(max_length=250)
-    organizers = models.CharField(max_length=550,default="")
+    venue= models.CharField(max_length=250,default="")
+    organizers = models.CharField(max_length=1550,default="")
     attendees = models.ManyToManyField(User,blank=True)
 
     def __str__(self):

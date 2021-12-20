@@ -6,9 +6,12 @@ export default {
   data() {
     return {
       event: "",
+			phone_number:"",
+			semester:"",
+			batch:"",
       asietId: "",
       message: "",
-			message_part:""
+      message_part: "",
     };
   },
   mounted() {
@@ -22,8 +25,10 @@ export default {
       this.message_part = part;
     },
     registerForEvent: async function () {
-      console.log(this.asietId);
-      await this.handleClickSignIn();
+      console.log(this.phone_number);
+      console.log(this.semester);
+      console.log(this.batch);
+			await this.handleClickSignIn();
     },
     async handleClickSignIn() {
       try {
@@ -38,7 +43,9 @@ export default {
         this.$store
           .dispatch("LOGIN", {
             oauth_token: id_token,
-            asiet_id: this.asietId,
+            phone_number: this.phone_number,
+						semester:this.semester,
+						batch:this.batch,
             event_id: this.event.id,
           })
           .then((e) => {
@@ -46,7 +53,7 @@ export default {
               this.renderMessage(
                 "Success",
                 "Registered as " +
-                  this.asietId +
+                  this.phone_number+
                   "@" +
                   googleUser.getBasicProfile().getEmail()
               );
@@ -75,23 +82,60 @@ export default {
   <div class="container">
     <div class="row">
       <div class="card bg-transparent border-0">
-        <h5 class="card-header display-4">{{ event.name }}</h5>
+        <h5 class="card-header display-4 brand">{{ event.name }}</h5>
         <div class="card-body">
           <h5 class="card-title">{{ event.timing }}</h5>
           <p class="card-text">{{ event.description }}</p>
 
-          <input
-            name="id"
-            v-model="asietId"
-            placeholder="Enter your phone number"
-          />
-          <a href="#" @click="registerForEvent" class="btn m-1 btn-primary"
-            >Register</a
-          >
-
-					<br>
-{{message}}
-					<hr/>
+          <div class="row">
+            <div class="col-sm-6 card p-5">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Phone Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter Phone Number"
+									v-model="phone_number"
+                />
+                <small id="emailHelp" class="form-text text-muted"
+                  >We'll never share your data with anyone else.</small
+                >
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Select semester</label>
+                <select class="form-control" v-model="semester" id="exampleFormControlSelect1">
+                  <option>1</option>
+                  <option>3</option>
+                  <option>5</option>
+                  <option>7</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect2">Select batch</label>
+                <select class="form-control" v-model="batch" id="exampleFormControlSelect2">
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+              <div class="form-group form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="exampleCheck1"
+                />
+                <label class="form-check-label" for="exampleCheck1"
+                  >Remember me</label
+                >
+              </div>
+              <button @click="registerForEvent" type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+          
+          <br />
+          {{ message }}
+          <hr />
           <p class="muted">Organizers : {{ event.organizers }}</p>
         </div>
       </div>
@@ -105,5 +149,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.brand {
+  font-family: myFirstFont;
 }
 </style>

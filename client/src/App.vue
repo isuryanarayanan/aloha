@@ -17,20 +17,14 @@ export default {
       Vue3GoogleOauth,
     };
   },
-  computed: {
-    logOauth: function () {
-      if (this.Vue3GoogleOauth.isInit && this.Vue3GoogleOauth.isAuthorized) {
-        console.log(this.$store.getters.getUser);
-      }
-    },
-  },
-  mounted() {},
+  
+  mounted() {
+	},
 };
 </script>
 
 <template>
   <div class="app">
-    {{ logOauth }}
     <Navbar />
     <router-view></router-view>
   </div>
@@ -40,6 +34,14 @@ export default {
   width: 100%;
   min-height: 100vh;
   height: 100%;
-  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+	background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+.brand-2 {
+  font-family: "Lato", sans-serif;
+}
+.brand {
+  font-family: myFirstFont;
 }
 </style>
