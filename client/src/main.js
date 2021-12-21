@@ -10,7 +10,7 @@ var deployment =
 	"1027589441319-13rlrl6k4hlht32in3a90m8nm3jt9aab.apps.googleusercontent.com";
 
 const gAuthOptions = {
-	clientId: deployment,
+	clientId:deployment,
   scope: "profile email openid",
   prompt: "consent",
   fetch_basic_profile: false,

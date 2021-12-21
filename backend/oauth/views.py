@@ -12,9 +12,11 @@ from accounts.models import User
 
 class GoogleOAuthSerializer(serializers.Serializer):
     oauth_token = serializers.CharField(max_length=2550)
+    username= serializers.CharField(max_length=250)
     phone_number = serializers.CharField(max_length=250)
     semester = serializers.CharField(max_length=250)
     batch = serializers.CharField(max_length=250)
+    team = serializers.CharField(max_length=250)
     event_id = serializers.CharField(max_length=250)
 
     access_token = serializers.CharField(max_length=250, read_only=True)
@@ -38,15 +40,14 @@ class GoogleOAuthSerializer(serializers.Serializer):
         # Using the information from google,
         # determine if an account exist of not
         try:
-            user = User.objects.get(email=idinfo['email']) or User.objects.get(
-                username=idinfo['name'])
+            user = User.objects.get(email=idinfo['email'])
         except Exception as exc:
             user = None
 
         if not user:
             try:
                 user = User.objects.create_user_from_google(
-                        email=idinfo['email'], username=idinfo['name'])
+                        email=idinfo['email'], username=data.get('username'))
             except Exception as exc:
                 raise serializers.ValidationError("Error creation user for this account")
 
@@ -62,12 +63,15 @@ class GoogleOAuthSerializer(serializers.Serializer):
             try: 
                 event = Event.objects.get(pk=data.get('event_id')) 
                 user.phone = data.get('phone_number')
-                user.semester= data.get('semester')
-                user.batch= data.get('batch')
+                user.semester = data.get('semester')
+                user.batch = data.get('batch')
+                user.username = data.get('username')
                 user.save()
             except Event.DoesNotExist: 
                 raise serializers.ValidationError("The event does not exist")
  
+            if (event.team_based):
+                event.teams = event.teams + "["+str(user.id)+","+data.get('team')+"]"
             event.attendees.add(user)
             event.save()
         except Exception as exc:
@@ -75,6 +79,8 @@ class GoogleOAuthSerializer(serializers.Serializer):
 
         return {
             "oauth_token": "valid",
+            "username": "valid",
+            "team": "valid",
             "event_id": "valid",
             "phone_number": "valid",
             "semester": "valid",

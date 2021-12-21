@@ -11,7 +11,9 @@ export default {
   },
   methods: {
     copyLink: function (e) {
-      navigator.clipboard.writeText("https://aloha.herokuapp.com/register/" + e);
+      navigator.clipboard.writeText(
+        "https://aloha.herokuapp.com/register/" + e
+      );
       alert("Link Copied to ClipBoard");
     },
   },
@@ -32,14 +34,17 @@ export default {
       <img class="image-banner" src="../assets/aloha-logo-little-1.png" />
     </div>
 
-    <div class="col-sm-12 card bg-transparent border-0 about  text-center">
+    <div class="col-sm-12 card bg-transparent border-0 about text-center">
       <div class="">
         <figure
-          class="bg-dark p-3 rounded text-light"
-          style="border-right: 0.5rem solid #a34e78;border-left: 0.5rem solid #a34e78"
+          class="bg-dark p-3 py-5 rounded text-light"
+          style="
+            border-right: 0.5rem solid #a34e78;
+            border-left: 0.5rem solid #a34e78;
+          "
         >
-          <blockquote class="blockquote pb-2">
-            <p class="brand-2">
+          <blockquote class="blockquote about-brand pb-2">
+            <p class="brand-2 brand-small ">
               Aloha, a frosty, congenial fiesta organized by the CSE Department
               of Adi Shankara Institute of Engineering and Technology, Kalady is
               the much awaited one-day extravaganza of the year and is all set
@@ -57,7 +62,7 @@ export default {
             </p>
           </blockquote>
           <figcaption class="blockquote-footer mb-0 font-italic">
-					Team
+            Team
           </figcaption>
         </figure>
       </div>
@@ -65,34 +70,106 @@ export default {
     <div class="col-sm-12 card bg-transparent border-0 p-0">
       <h1 class="brand p-5">Events</h1>
     </div>
-    <div
-      class="col-sm-4 border py-2 bg-dark text-light"
-      v-for="event in events"
-      :key="event.id"
-    >
-      <div class="p-2">
-        <h3 class="brand">{{ event.name }}</h3>
-      </div>
-      <hr />
-      <p class="brand-2">{{ event.description }}</p>
-      <div class="btn brand-2 btn-primary register-btn">
-        <router-link
-          class="text-light"
-          :to="{ name: 'Register', params: { id: event.id } }"
-          >Details</router-link
-        >
-      </div>
+    <div class="col-sm-12 row m-auto">
       <div
-        class="btn btn-success brand-2 register-btn mx-1"
-        @click="copyLink(event.id)"
+        class="col-sm-4 border py-2 bg-dark text-light"
+        v-for="event in events"
+        :key="event.id"
       >
-        Share
+        <div class="p-2 text-center">
+          <h3 class="brand">{{ event.name }}</h3>
+        </div>
+        <hr />
+        <p class="brand-2 brand-small text-center">
+				<span v-html="event.short_description.replace(/(?:\r\n|\r|\n)/g, '<br />')"></span>
+          <br />
+          <br />
+          <a class="btn brand-2 btn-primary register-btn">
+            <router-link
+              class="text-light"
+              :to="{ name: 'Register', params: { id: event.id } }"
+              >Register here</router-link
+            >
+          </a>
+        </p>
       </div>
     </div>
+
+    <footer class="w-100 contact-footer flex-shrink-0">
+      <div class="row text-center pb-5">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4 row text-center">
+          <div class="rounded-link col-4 m-auto">
+            <a href="https://www.instagram.com/cseasiet"
+              ><i class="fa fa-instagram" aria-hidden="true"></i
+            ></a>
+          </div>
+          <div class="rounded-link col-4 m-auto">
+            <a href="https://www.linkedin.com/company/department-of-cse-asiet"
+              ><i class="fa fa-linkedin" aria-hidden="true"></i
+            ></a>
+          </div>
+          <div class="rounded-link col-4 m-auto">
+            <a href="https://www.facebook.com/CSEASIET"
+              ><i class="fa fa-facebook" aria-hidden="true"></i
+            ></a>
+          </div>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
+      <div class="row text-center pt-5">
+        <div class="col-sm-4">
+          <h5 class="h1 brand text-dark">Sidharth</h5>
+          <p class="small text-muted">
+            K Sidharth <br />
+            +91 89211 46719
+          </p>
+          <p class="small text-muted mb-0">@ Event Organizer</p>
+          <hr />
+        </div>
+        <div class="col-sm-4">
+          <h5 class="h1 brand text-dark">Fayis</h5>
+          <p class="small text-muted">
+            Mohammed Fayis E<br />
+            +91 96453 15315
+          </p>
+          <p class="small text-muted mb-0">@ Event Organizer</p>
+          <hr />
+        </div>
+        <div class="col-sm-4">
+          <h5 class="h1 brand text-dark">Surya</h5>
+          <p class="small text-muted">
+            Surya Narayanan<br />
+            a.suryanarayanan2000@gmail.com
+          </p>
+          <p class="small text-muted mb-0">
+            <a class="text-primary" href="https://github.com/isuryanarayanan"
+              >@ Developer</a
+            >
+          </p>
+          <hr />
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
 <style scoped>
+.contact-footer {
+  margin-top: 100px;
+}
+.rounded-link {
+  background: #222;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+}
+.rounded-link a {
+  color: white;
+}
 .container {
   height: 100%;
   display: flex;
@@ -110,4 +187,11 @@ export default {
   margin-top: 5%;
 }
 
+.brand-small {
+  font-size: 14px;
+}
+.about-brand{
+	padding-left: 10%;
+	padding-right: 10%;
+}
 </style>
