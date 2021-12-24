@@ -60,20 +60,26 @@ class GoogleOAuthSerializer(serializers.Serializer):
 
         try:
             from organizer.models import Event
-            try: 
-                event = Event.objects.get(pk=data.get('event_id')) 
+            try:
+                event = Event.objects.get(pk=data.get('event_id'))
                 user.phone = data.get('phone_number')
                 user.semester = data.get('semester')
                 user.batch = data.get('batch')
                 user.username = data.get('username')
-                user.save()
-            except Event.DoesNotExist: 
+                if (not event.closed):
+                    user.save()
+                else:
+                    raise serializers.ValidationError("Event is closed")
+            except Event.DoesNotExist:
                 raise serializers.ValidationError("The event does not exist")
- 
+
             if (event.team_based):
                 event.teams = event.teams + "["+str(user.id)+","+data.get('team')+"]"
             event.attendees.add(user)
-            event.save()
+            if (not event.closed):
+                event.save()
+            else:
+                raise serializers.ValidationError("Event is closed")
         except Exception as exc:
             raise serializers.ValidationError(exc)
 

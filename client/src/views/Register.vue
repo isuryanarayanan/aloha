@@ -101,12 +101,15 @@ export default {
       <div class="card bg-transparent border-0">
         <h5 class="card-header display-4 brand">{{ event.name }}</h5>
         <div class="card-body">
+				<div class="text-danger" v-if="event.closed"> <h1>Registration closed</h1> </div>
           <h5 class="card-title">
             Time: {{ event.timing }} | venue: {{ event.venue }}
           </h5>
           <p class="card-text">
             <span
-              v-html="event.description.replace(/(?:\r\n|\r|\n)/g, '<br />')"
+              v-html="
+                event.description.replace(/(?:\r\n|\r|\n)/g, '<br />')
+              "
             ></span>
           </p>
 

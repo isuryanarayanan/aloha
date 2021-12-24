@@ -35,13 +35,33 @@ const store = new Vuex.Store({
       });
       return promise;
     },
-    GET_EVENT: function ({ getters, dispatch, commit }, id) {
+    GET_EVENTS_DETAILS: function ({ getters, dispatch, commit }, id) {
       let xhr = new XMLHttpRequest();
       let promise = new Promise((resolve, reject) => {
         xhr.open(
           "GET",
-					"https://alohaasiet.pythonanywhere.com/organizer/event/" + id + "/"
+					"https://alohaasiet.pythonanywhere.com/organizer/event/registered/" + id + ""
         );
+        xhr.setRequestHeader("Content-Type", "Application/json");
+
+        xhr.onload = () => {
+          resolve(xhr);
+        };
+
+        xhr.onerror = () => {
+          reject(xhr);
+        };
+        xhr.send();
+      });
+      //promise.then((e) => {
+      //commit("set_events", JSON.parse(e.response));
+      //});
+      return promise;
+    },
+    GET_EVENT: function ({ getters, dispatch, commit }, id) {
+      let xhr = new XMLHttpRequest();
+      let promise = new Promise((resolve, reject) => {
+				xhr.open("GET", "https://alohaasiet.pythonanywhere.com/organizer/event/" + id + "/");
         xhr.setRequestHeader("Content-Type", "Application/json");
 
         xhr.onload = () => {
